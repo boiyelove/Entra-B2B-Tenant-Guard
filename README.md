@@ -41,6 +41,14 @@ tests cannot claim a live cloud change occurred.
 
 The upper boundary names the principal services and technologies used by this repository. The lower boundary shows the implemented control flow: desired state is validated, provider action remains an explicit integration gate, and sanitized evidence is retained for review and deterministic replay.
 
+## Best complementary diagram
+
+**Recommended view: Cross-tenant trust decision-flow diagram.** A control-loop view is the strongest complement because it shows how observed state becomes a bounded decision, an action, and measured feedback.
+
+![Icon-based cross-tenant trust decision-flow diagram for Entra-B2B-Tenant-Guard](docs/operational-view.svg)
+
+The view follows **Observe collaboration request → Resolve partner trust policy → Allow or deny exchange → Review drift and evidence**. Use it during design reviews, operational walkthroughs, and failure-mode discussions; use the logical architecture above when the question is which technologies integrate.
+
 ## Quickstart
 
 Requirements: Python 3.11+ and Git. No Azure credentials are required.
