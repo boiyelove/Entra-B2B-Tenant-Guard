@@ -2,6 +2,19 @@
 
 Continuously govern inbound and outbound cross-tenant collaboration with explicit, reviewable trust rules.
 
+## Project metadata
+
+The metadata below is derived from tracked source, manifests, and infrastructure
+files. It describes what this repository includes; live-service integration remains
+bounded by the documented deployment and validation limitations.
+
+| Category | Included |
+| --- | --- |
+| Platforms | Microsoft Azure; GitHub Actions |
+| Services and stack | Entra B2B; Cross-Tenant Access; Azure Policy; Log Analytics; Microsoft Graph |
+| Languages and formats | Python; Bicep; Bicep parameters; Bash; JSON; YAML |
+| Delivery and IaC | Bicep + `.bicepparam`; GitHub Actions CI; YAML configuration; Python validation/tests |
+
 ## Problem statement
 
 A proposed cross-tenant collaboration relationship is evaluated against approved tenant IDs, inbound/outbound trust policy, evidence freshness, and production approval before Graph adapters change access settings.
