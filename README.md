@@ -2,13 +2,27 @@
 
 Continuously govern inbound and outbound cross-tenant collaboration with explicit, reviewable trust rules.
 
-## Example synopsis
+## Problem statement
 
 A proposed cross-tenant collaboration relationship is evaluated against approved tenant IDs, inbound/outbound trust policy, evidence freshness, and production approval before Graph adapters change access settings.
 
-## Real-world scenario
+A production implementation can still fail even when every resource deploys successfully. The material risk is invisible trust expansion: a subject, tenant, group, or session gains access beyond the exact relationship its owner approved. The design therefore treats Entra B2B, Cross-Tenant Access Policies, Azure Policy, and the surrounding identity and evidence controls as one reviewable system rather than unrelated configuration tasks.
+
+## Example case study
+
+### Situation
 
 A company involved in acquisitions and vendor projects discovers that external collaboration settings differ across teams. The guard creates a reviewable boundary that allows approved partnerships without unrestricted inbound trust or accidental data sharing.
+
+### Response
+
+An acquisition requires partner access without trusting every claim from the other tenant. The guard scopes inbound and outbound trust to named groups and applications and rejects a broad cross-tenant rule before temporary collaboration becomes persistent exposure.
+
+The team first exercises the repository's synthetic approved and denied fixtures. An approved request must produce the same idempotent plan on replay; a stale, unscoped, public, or unapproved request must fail before an Azure adapter is allowed to run.
+
+### Expected outcome
+
+Stakeholders receive a decision package they can attach to a change record: requested scope, controls evaluated, the reason for approval or denial, and the explicit handoff to live integration. The example supports design review and incident rehearsal without pretending that a local test changed Azure.
 
 ## Architecture
 
@@ -23,14 +37,11 @@ project action before producing a deterministic execution plan. Azure adapters
 consume that plan; they are deliberately outside the local simulator so local
 tests cannot claim a live cloud change occurred.
 
-```mermaid
-flowchart LR
-  Request[Desired-state request] --> Validate[Fail-closed validation]
-  Validate -->|denied| Evidence[Sanitized denial evidence]
-  Validate -->|approved| Plan[Idempotent project plan]
-  Plan --> Adapter[Azure adapter integration gate]
-  Adapter --> Monitor[Private evidence and monitoring plane]
-```
+![Icon-based architecture for Entra-B2B-Tenant-Guard](docs/architecture.svg)
+
+The upper boundary names the principal services and technologies used by this repository. The lower boundary shows the implemented control flow: desired state is validated, provider action remains an explicit integration gate, and sanitized evidence is retained for review and deterministic replay.
+
+Azure product icons come from [Microsoft's official Azure Architecture Icons](https://learn.microsoft.com/azure/architecture/icons/). Open-source marks are sourced from [Simple Icons](https://simpleicons.org/) when shown; each mark identifies its respective technology.
 
 ## Quickstart
 
@@ -58,11 +69,11 @@ Local validation covers 13 tests, deterministic replay, JSON parsing, Python
 compilation, ignore hygiene, and Bicep compilation when a compiler is present.
 It does **not** prove Azure deployment, service licensing, quota, data-plane
 permissions, provider/API availability, cloud failover, load, cost, or teardown.
-See [[`docs/test-matrix.md`](docs/test-matrix.md)](docs/test-matrix.md) and [[`docs/runbook.md`](docs/runbook.md)](docs/runbook.md) before any integration trial.
+See [`docs/test-matrix.md`](docs/test-matrix.md) and [`docs/runbook.md`](docs/runbook.md) before any integration trial.
 
 ## Community
 
-See [[`CONTRIBUTING.md`](CONTRIBUTING.md)](CONTRIBUTING.md), [[`SECURITY.md`](SECURITY.md)](SECURITY.md), [[`SUPPORT.md`](SUPPORT.md)](SUPPORT.md), and [[`LICENSE`](LICENSE)](LICENSE). The reference
+See [`CONTRIBUTING.md`](CONTRIBUTING.md), [`SECURITY.md`](SECURITY.md), [`SUPPORT.md`](SUPPORT.md), and [`LICENSE`](LICENSE). The reference
 is intentionally conservative and uses synthetic identifiers only.
 
 ## Repository guide
